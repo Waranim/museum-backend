@@ -20,7 +20,6 @@ spring:
     password: ${POSTGRES_PASSWORD:postgres}
 
   liquibase:
-    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 app:

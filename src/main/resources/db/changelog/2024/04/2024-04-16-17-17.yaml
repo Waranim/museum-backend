@@ -1,0 +1,272 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-04-16-17-17
+      author: SterkhovKI
+      comment: Create tables
+      changes:
+        - createSequence:
+            sequenceName: hibernate_sequence
+            incrementBy: 50
+        - createTable:
+            tableName: site
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: address
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: float
+                  constraints:
+                    nullable: true
+              - column:
+                  name: longitude
+                  type: float
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: type_of_event
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: event
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: site_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_event_site
+                    referencedTableName: site
+                    referencedColumnNames: id
+              - column:
+                  name: type_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_event_type_of_event
+                    referencedTableName: type_of_event
+                    referencedColumnNames: id
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: age
+                  type: int
+                  constraints:
+                    nullable: true
+              - column:
+                  name: adult
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: teenagers
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: kids
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: hia
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: kassir
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: completed
+                  type: boolean
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: image
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: path
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_image_event
+                    referencedTableName: event
+                    referencedColumnNames: id
+        - createTable:
+            tableName: price
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: int
+                  constraints:
+                    nullable: true
+              - column:
+                  name: age
+                  type: int
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: text
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: number_phone
+                  type: varchar(20)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: hia
+                  type: boolean
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: user_event
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_user_event_user
+                    referencedTableName: user
+                    referencedColumnNames: id
+              - column:
+                  name: event_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_user_event_event
+                    referencedTableName: event
+                    referencedColumnNames: id
+        - createTable:
+            tableName: price_event
+            columns:
+              - column:
+                  name: price_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_price_event_price
+                    referencedTableName: price
+                    referencedColumnNames: id
+              - column:
+                  name: event_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_price_event_event
+                    referencedTableName: event
+                    referencedColumnNames: id
