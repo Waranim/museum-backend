@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  config:
+    import: optional:configtree:/run/secrets/
 
   jpa:
     open-in-view: false
@@ -17,7 +19,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB_NAME:museum}
     username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
+    password: ${pg_password:postgres}
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
