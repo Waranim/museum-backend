@@ -4,10 +4,12 @@ services:
     build:
       dockerfile: Dockerfile
     hostname: museum.backend
+    restart: always
     environment:
       POSTGRES_HOST: "museum.postgres"
       POSTGRES_USERNAME: "postgres"
-      POSTGRES_PASSWORD: "museum"
+    secrets:
+      - pg_password
     ports:
       - "8080:8080"
     networks:
@@ -19,14 +21,17 @@ services:
     container_name: museum.postgres
     image: postgres:16.2-alpine3.19
     hostname: museum.postgres
+    restart: always
     environment:
       POSTGRES_DB: "postgres"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "museum"
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ./db/init-scripts:/docker-entrypoint-initdb.d
       - ./db/data:/var/lib/postgresql/data
+    secrets:
+      - pg_password
     ports:
       - "6432:5432"
     healthcheck:
@@ -42,6 +47,10 @@ services:
           memory: 2G
     networks:
       - museum_backend
+
+secrets:
+  pg_password:
+    file: ./db/secrets/password.txt
 
 networks:
   museum_backend:
