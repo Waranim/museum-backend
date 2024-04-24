@@ -1,0 +1,48 @@
+services:
+  museum-backend:
+    container_name: museum.backend
+    build:
+      dockerfile: Dockerfile
+    hostname: museum.backend
+    environment:
+      POSTGRES_HOST: "museum.postgres"
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_PASSWORD: "museum"
+    ports:
+      - "8080:8080"
+    networks:
+      - museum_backend
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: museum.postgres
+    image: postgres:16.2-alpine3.19
+    hostname: museum.postgres
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "museum"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./db/init-scripts:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/postgresql/data
+    ports:
+      - "6432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    networks:
+      - museum_backend
+
+networks:
+  museum_backend:
+    driver: bridge
