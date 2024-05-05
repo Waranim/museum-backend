@@ -1,0 +1,7 @@
+app:
+  keycloak:
+    auth-url: http://localhost:8081/realms/museum/protocol/openid-connect
+    admin-url: http://localhost:8081/admin/realms/museum
+    realm: museum
+    client-id: museum-backend
+    client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw

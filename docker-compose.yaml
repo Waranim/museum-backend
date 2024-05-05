@@ -48,6 +48,30 @@ services:
     networks:
       - museum_backend
 
+  keycloak:
+    container_name: museum.keycloak
+    image: bitnami/keycloak:24.0.3
+    hostname: museum.keycloak
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin1"
+      KEYCLOAK_ENABLE_STATISTICS: "true"
+      KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: "true"
+      KEYCLOAK_HTTP_PORT: "8081"
+      KEYCLOAK_DATABASE_HOST: "museum.postgres"
+      KEYCLOAK_DATABASE_USER: "postgres"
+      KEYCLOAK_DATABASE_NAME: "keycloak"
+      KEYCLOAK_DATABASE_PASSWORD: "museum1"
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    networks:
+      - museum_backend
+
 secrets:
   pg_password:
     file: ./db/secrets/password.txt
