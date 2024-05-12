@@ -16,6 +16,22 @@ spring:
             non_contextual_creation: true
           time_zone: UTC
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/museum
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/museum
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: museum-backend
+            client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw
+            scope: openid
+
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB_NAME:museum}
     username: ${POSTGRES_USERNAME:postgres}
@@ -26,3 +42,7 @@ spring:
 
 app:
   name: Museum
+
+  keycloak:
+    express-in:
+      access-token: 300000
