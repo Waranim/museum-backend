@@ -46,7 +46,3 @@ app:
   keycloak:
     express-in:
       access-token: 300000
-
-logging:
-  level:
-    org.springframework.security: trace

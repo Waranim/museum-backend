@@ -1,5 +1,6 @@
-package org.example.museumbackend.service;
+package org.example.museumbackend.adapter.keycloak.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.museumbackend.adapter.keycloak.common.AuthResponse;
 import org.example.museumbackend.adapter.web.DTO.request.RefreshTokenDTO;
@@ -19,6 +20,7 @@ import java.net.URI;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class LogoutService {
 
     private static final String LOGOUT_PATH = "/logout";
@@ -26,14 +28,18 @@ public class LogoutService {
     private static final String CLIENT_SECRET = "client_secret";
     private static final String REFRESH_TOKEN = "refresh_token";
 
-    @Value("${app.keycloak.auth-url:http://localhost:8081/realms/museum/protocol/openid-connect}")
-    private String authUrl;
+    private final String authUrl;
+    private final String clientId;
+    private final String clientSecret;
 
-    @Value("${app.keycloak.client-id:museum-backend}")
-    private String clientId;
-
-    @Value("${app.keycloak.client-secret:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}")
-    private String clientSecret;
+//    @Value("${app.keycloak.auth-url:http://localhost:8081/realms/museum/protocol/openid-connect}")
+//    private String authUrl;
+//
+//    @Value("${app.keycloak.client-id:museum-backend}")
+//    private String clientId;
+//
+//    @Value("${app.keycloak.client-secret:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}")
+//    private String clientSecret;
 
     private final WebClient webClient = WebClient.create();
 

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.UserDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TokenDTO;
-import org.example.museumbackend.service.LoginService;
+import org.example.museumbackend.adapter.keycloak.service.LoginService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

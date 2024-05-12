@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.RefreshTokenDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TokenDTO;
-import org.example.museumbackend.service.RefreshTokenService;
+import org.example.museumbackend.adapter.keycloak.service.RefreshTokenService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,5 +1,6 @@
 package org.example.museumbackend.adapter.keycloak;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.museumbackend.adapter.keycloak.common.AuthResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import java.net.URI;
 
 @Component
 @Log4j2
+@RequiredArgsConstructor
 public class AuthClient {
 
     private static final String TOKEN_PATH = "/token";
@@ -22,14 +24,18 @@ public class AuthClient {
     private static final String CLIENT_SECRET = "client_secret";
     public static final String CLIENT_CREDENTIALS = "client_credentials";
 
-    @Value("${app.keycloak.auth-url:http://localhost:8081/realms/museum/protocol/openid-connect}")
-    private String authUrl;
+    private final String authUrl;
+    private final String clientId;
+    private final String clientSecret;
 
-    @Value("${app.keycloak.client-id:museum-backend}")
-    private String clientId;
-
-    @Value("${app.keycloak.client-secret:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}")
-    private String clientSecret;
+//    @Value("${app.keycloak.auth-url:http://localhost:8081/realms/museum/protocol/openid-connect}")
+//    private String authUrl;
+//
+//    @Value("${app.keycloak.client-id:museum-backend}")
+//    private String clientId;
+//
+//    @Value("${app.keycloak.client-secret:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}")
+//    private String clientSecret;
 
     private final WebClient webClient = WebClient.create();
 

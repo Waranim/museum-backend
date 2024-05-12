@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.UserDTO;
-import org.example.museumbackend.service.RegisterService;
+import org.example.museumbackend.adapter.keycloak.service.RegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

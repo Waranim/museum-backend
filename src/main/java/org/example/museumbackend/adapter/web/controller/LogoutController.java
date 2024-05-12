@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.RefreshTokenDTO;
-import org.example.museumbackend.service.LogoutService;
+import org.example.museumbackend.adapter.keycloak.service.LogoutService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
