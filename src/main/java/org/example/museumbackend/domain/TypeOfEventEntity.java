@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TypeOfEventEntity extends BaseDomainEntity {
 
     @Column(nullable = false)
@@ -25,4 +23,8 @@ public class TypeOfEventEntity extends BaseDomainEntity {
 
     @OneToMany(mappedBy = "typeOfEvent")
     private List<EventEntity> events;
+
+    public TypeOfEventEntity(String name) {
+        this.name = name;
+    }
 }

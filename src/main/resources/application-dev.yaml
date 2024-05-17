@@ -5,3 +5,7 @@ app:
     realm: museum
     client-id: museum-backend
     client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw
+
+#logging:
+#  level:
+#    org.springframework.security: trace

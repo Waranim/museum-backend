@@ -1,13 +1,14 @@
 package org.example.museumbackend.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.museumbackend.domain.common.BaseDomainEntity;
-
-import java.util.List;
 
 @Entity
 @Table(name = "price")
@@ -21,11 +22,7 @@ public class PriceEntity extends BaseDomainEntity {
 
     private Integer age;
 
-    @ManyToMany
-    @JoinTable(
-            name = "price_event",
-            joinColumns = { @JoinColumn(name = "price_id") },
-            inverseJoinColumns = { @JoinColumn(name = "event_id") }
-    )
-    private List<EventEntity> events;
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private EventEntity event;
 }

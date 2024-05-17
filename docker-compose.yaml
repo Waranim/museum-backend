@@ -4,7 +4,6 @@ services:
     build:
       dockerfile: Dockerfile
     hostname: museum.backend
-    restart: always
     environment:
       POSTGRES_HOST: "museum.postgres"
       POSTGRES_USERNAME: "postgres"
