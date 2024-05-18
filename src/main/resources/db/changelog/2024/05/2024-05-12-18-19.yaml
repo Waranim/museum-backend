@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-05-12-18-19
+      author: SterkhovKI
+      comment: Changing many to many to one to many of the event and price tables
+      changes:
+        - dropTable:
+            tableName: price_event
+        - addColumn:
+            tableName: price
+            columns:
+              - column:
+                  name: event_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_price_event
+                    referencedTableName: event
+                    referencedColumnNames: id

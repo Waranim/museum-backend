@@ -1,12 +1,12 @@
 package org.example.museumbackend.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.museumbackend.domain.common.BaseDomainEntity;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class EventEntity extends BaseDomainEntity {
 
     @ManyToOne
@@ -25,7 +24,7 @@ public class EventEntity extends BaseDomainEntity {
     @JoinColumn(name = "type_id")
     private TypeOfEventEntity typeOfEvent;
 
-    private java.sql.Timestamp date;
+    private Timestamp date;
 
     private Integer age;
 
@@ -46,9 +45,9 @@ public class EventEntity extends BaseDomainEntity {
     @ManyToMany(mappedBy = "events")
     private List<UserEntity> users;
 
-    @ManyToMany(mappedBy = "events")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<PriceEntity> prices;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST)
     private List<ImageEntity> images;
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class SiteEntity extends BaseDomainEntity {
 
     @Column(unique = true, nullable = false)
@@ -32,4 +30,11 @@ public class SiteEntity extends BaseDomainEntity {
 
     @OneToMany(mappedBy = "site")
     private List<EventEntity> events;
+
+    public SiteEntity(String name, String address, Double latitude, Double longitude) {
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

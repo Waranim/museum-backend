@@ -66,9 +66,9 @@ public class SecurityConfig {
                         .requestMatchers(PERMITTED_URI).permitAll()
                         .requestMatchers(CLIENT_URI).hasRole(USER_ROLE)
                         .requestMatchers(ADMIN_URI).hasRole(ADMIN_ROLE)
-                        .requestMatchers(PR_URI).hasRole(PR_ROLE)
-                        .requestMatchers(MARKETER_URI).hasRole(MARKETER_ROLE)
-                        .requestMatchers(GUIDE_URI).hasRole(GUIDE_ROLE)
+                        .requestMatchers(PR_URI).hasAnyRole(PR_ROLE, ADMIN_ROLE)
+                        .requestMatchers(MARKETER_URI).hasAnyRole(MARKETER_ROLE, ADMIN_ROLE)
+                        .requestMatchers(GUIDE_URI).hasAnyRole(GUIDE_ROLE, ADMIN_ROLE)
                         .anyRequest().authenticated())
                 .httpBasic(HttpBasicConfigurer -> {})
                 .build();
