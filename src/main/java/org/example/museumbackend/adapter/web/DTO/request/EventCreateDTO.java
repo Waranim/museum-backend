@@ -23,7 +23,7 @@ public record EventCreateDTO(
         String kassir,
         @NotNull
         @NotEmpty
-        PriceDTO[] prices
+        PriceReqDTO[] prices
 ) {
         public EventCreateDTO {
                 if (adult == null) {

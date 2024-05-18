@@ -2,7 +2,7 @@ package org.example.museumbackend.adapter.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.museumbackend.adapter.web.DTO.request.TypeOfEventDTO;
+import org.example.museumbackend.adapter.web.DTO.request.TypeOfEventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TypeOfEventResDTO;
 import org.example.museumbackend.service.TypeOfEventService;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class TypeOfEventController {
 
     @PostMapping("/admin/api/type-of-event")
     @ResponseStatus(HttpStatus.CREATED)
-    public TypeOfEventResDTO createTypeOfEvent(@Validated @RequestBody TypeOfEventDTO typeOfEventDTO) {
+    public TypeOfEventResDTO createTypeOfEvent(@Validated @RequestBody TypeOfEventReqDTO typeOfEventDTO) {
         return typeOfEventService.createTypeOfEvent(typeOfEventDTO);
     }
 

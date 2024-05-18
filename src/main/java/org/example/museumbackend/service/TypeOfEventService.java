@@ -3,7 +3,7 @@ package org.example.museumbackend.service;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.repository.TypeOfEventRepository;
-import org.example.museumbackend.adapter.web.DTO.request.TypeOfEventDTO;
+import org.example.museumbackend.adapter.web.DTO.request.TypeOfEventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TypeOfEventResDTO;
 import org.example.museumbackend.domain.TypeOfEventEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class TypeOfEventService {
 
     TypeOfEventRepository typeOfEventRepository;
 
-    public TypeOfEventResDTO createTypeOfEvent(TypeOfEventDTO typeOfEventDTO) {
+    public TypeOfEventResDTO createTypeOfEvent(TypeOfEventReqDTO typeOfEventDTO) {
         var typeOfEvent = new TypeOfEventEntity(typeOfEventDTO.name());
         typeOfEventRepository.save(typeOfEvent);
 

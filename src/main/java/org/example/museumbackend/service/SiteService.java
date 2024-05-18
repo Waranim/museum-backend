@@ -3,7 +3,7 @@ package org.example.museumbackend.service;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.repository.SiteRepository;
-import org.example.museumbackend.adapter.web.DTO.request.SiteDTO;
+import org.example.museumbackend.adapter.web.DTO.request.SiteReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.SiteResDTO;
 import org.example.museumbackend.domain.SiteEntity;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class SiteService {
 
     SiteRepository siteRepository;
 
-    public SiteResDTO createSite(SiteDTO siteDTO) {
+    public SiteResDTO createSite(SiteReqDTO siteDTO) {
         var site = new SiteEntity(siteDTO.name(), siteDTO.address(), siteDTO.latitude(), siteDTO.longitude());
         siteRepository.save(site);
 

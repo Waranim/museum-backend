@@ -2,17 +2,16 @@ package org.example.museumbackend.adapter.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.museumbackend.adapter.web.DTO.request.SiteDTO;
+import org.example.museumbackend.adapter.web.DTO.request.SiteReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.SiteResDTO;
 import org.example.museumbackend.service.SiteService;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
@@ -34,7 +33,7 @@ public class SiteController {
 
     @PostMapping("/admin/api/site")
     @ResponseStatus(CREATED)
-    public SiteResDTO createSite(@Validated @RequestBody SiteDTO siteDTO) {
+    public SiteResDTO createSite(@Validated @RequestBody SiteReqDTO siteDTO) {
         return siteService.createSite(siteDTO);
     }
 
