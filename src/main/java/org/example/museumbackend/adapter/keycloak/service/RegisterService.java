@@ -7,7 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.example.museumbackend.adapter.keycloak.DTO.PasswordDTO;
 import org.example.museumbackend.adapter.keycloak.common.AccessTokenClient;
 import org.example.museumbackend.adapter.web.DTO.request.UserDTO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ import java.util.Map;
 public class RegisterService {
 
     private static final String BEARER = "Bearer ";
-    private static final String PATH = "http://localhost:8081/admin/realms/museum/users";
     private static final String USERS_PATH = "/users";
     private static final String AUTHORIZATION = "Authorization";
     private static final String EMAIL = "email";

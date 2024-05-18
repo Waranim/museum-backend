@@ -5,7 +5,6 @@ import lombok.extern.log4j.Log4j2;
 import org.example.museumbackend.adapter.keycloak.common.AuthResponse;
 import org.example.museumbackend.adapter.web.DTO.request.UserDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TokenDTO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,15 +29,6 @@ public class LoginService {
     private final String authUrl;
     private final String clientId;
     private final String clientSecret;
-
-//    @Value("${app.keycloak.auth-url:http://localhost:8081/realms/museum/protocol/openid-connect}")
-//    private String authUrl;
-//
-//    @Value("${app.keycloak.client-id:museum-backend}")
-//    private String clientId;
-//
-//    @Value("${app.keycloak.client-secret:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}")
-//    private String clientSecret;
 
     private final WebClient webClient = WebClient.create();
 
