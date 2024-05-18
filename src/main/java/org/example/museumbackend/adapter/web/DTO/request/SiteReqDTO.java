@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record SiteReqDTO(Long id,
                          @NotNull
-                      @NotEmpty
-                      String name,
+                         @NotEmpty
+                         String name,
                          @NotNull
-                      @NotEmpty
-                      String address,
+                         @NotEmpty
+                         String address,
                          Double latitude,
                          Double longitude) {
     public SiteReqDTO {

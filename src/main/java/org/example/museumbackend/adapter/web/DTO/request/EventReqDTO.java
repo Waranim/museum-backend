@@ -1,7 +1,6 @@
 package org.example.museumbackend.adapter.web.DTO.request;
 
 public record EventReqDTO(
-        Long id,
         Long siteId,
         Long typeOfEventId,
         String date,
