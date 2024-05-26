@@ -5,6 +5,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record EventCreateDTO(
         @NotNull
+        @NotEmpty
+        String name,
+        @NotNull
+        @NotEmpty
+        String summary,
+        @NotNull
         Long siteId,
         @NotNull
         Long typeOfEventId,

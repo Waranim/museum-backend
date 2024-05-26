@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.EventCreateDTO;
 import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
+import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
 import org.example.museumbackend.service.EventService;
 import org.springframework.validation.annotation.Validated;
@@ -29,9 +30,14 @@ public class EventController {
         return eventService.getEvent(id);
     }
 
-    @GetMapping("/api/events")
+    @GetMapping("/api/events/info")
     public List<EventResDTO> getEvents() {
         return eventService.getAllEvents();
+    }
+
+    @GetMapping("/api/events")
+    public List<EventLogoResDTO> getEventsLogo() {
+        return eventService.getAllEventsLogo();
     }
 
     @SneakyThrows

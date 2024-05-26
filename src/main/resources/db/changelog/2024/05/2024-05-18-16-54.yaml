@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-05-18-16-54
+      author: SterkhovKI
+      comment: Adding columns to the event table
+      changes:
+        - addColumn:
+            tableName: event
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: summary
+                  type: text
+              - column:
+                  name: view_count
+                  type: bigint

@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.repository.*;
 import org.example.museumbackend.adapter.web.DTO.request.EventCreateDTO;
 import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
+import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.ImageLinkDTO;
 import org.example.museumbackend.adapter.web.DTO.response.PriceResDTO;
@@ -85,6 +86,8 @@ public class EventService {
             throw new ResponseStatusException(NOT_FOUND, INCORRECT_ID_SPECIFIED_MESSAGE + SITE + " or/and " + TYPE_OF_EVENT);
         }
 
+        event.setName(eventDTO.name());
+        event.setSummary(eventDTO.summary());
         event.setSite(site);
         event.setTypeOfEvent(typeOfEvent);
         event.setDate(date);
@@ -97,6 +100,7 @@ public class EventService {
         event.setKassir(eventDTO.kassir());
         event.setPrices(prices);
         event.setImages(imageList);
+        event.setCompleted(false);
 
         eventRepository.save(event);
     }
@@ -106,22 +110,28 @@ public class EventService {
         var eventEntity = eventRepository.findById(id);
         if (eventEntity.isPresent()) {
             event = eventEntity.get();
+            var viewCount = event.getViewCount();
+            viewCount++;
+            event.setViewCount(viewCount);
+            eventRepository.save(event);
         } else {
             return null;
         }
 
         var pricesDTO = event.getPrices()
-                            .stream()
-                            .map(price -> new PriceResDTO(price.getId(), price.getPrice(), price.getAge()))
-                            .toList();
+                .stream()
+                .map(price -> new PriceResDTO(price.getId(), price.getPrice(), price.getAge()))
+                .toList();
 
         var imagesDTO = event.getImages()
-                            .stream()
-                            .map(imageEntity -> new ImageLinkDTO(IMAGE_PATH + imageEntity.getId()))
-                            .toList();
+                .stream()
+                .map(imageEntity -> new ImageLinkDTO(IMAGE_PATH + imageEntity.getId()))
+                .toList();
 
         return new EventResDTO(
                 event.getId(),
+                event.getName(),
+                event.getSummary(),
                 event.getSite().getId(),
                 event.getTypeOfEvent().getId(),
                 event.getDate(),
@@ -132,6 +142,7 @@ public class EventService {
                 event.getHia(),
                 event.getDescription(),
                 event.getKassir(),
+                event.getViewCount(),
                 event.getCompleted(),
                 pricesDTO,
                 imagesDTO
@@ -140,6 +151,23 @@ public class EventService {
 
     public List<EventResDTO> getAllEvents() {
         return eventRepository.findAll().stream().map(event -> getEvent(event.getId())).toList();
+    }
+
+    public List<EventLogoResDTO> getAllEventsLogo() {
+        var result = eventRepository
+                .findAll()
+                .stream()
+                .filter(event -> !event.getCompleted())
+                .map(event -> new EventLogoResDTO(
+                        event.getId(),
+                        event.getName(),
+                        event.getSummary(),
+                        event.getDescription(),
+                        event.getSite().getAddress(),
+                        event.getImages().isEmpty() ? null : new ImageLinkDTO(IMAGE_PATH + event.getImages().getFirst().getId())))
+                .toList();
+
+        return result;
     }
 
     public void updateEvent(Long id, EventReqDTO eventDTO) {
@@ -180,6 +208,8 @@ public class EventService {
             }
         }
 
+        Optional.ofNullable(eventDTO.name()).ifPresent(event::setName);
+        Optional.ofNullable(eventDTO.summary()).ifPresent(event::setSummary);
         Optional.ofNullable(eventDTO.age()).ifPresent(event::setAge);
         Optional.ofNullable(eventDTO.adult()).ifPresent(event::setAdult);
         Optional.ofNullable(eventDTO.teenagers()).ifPresent(event::setTeenagers);

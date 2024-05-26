@@ -16,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 public class EventEntity extends BaseDomainEntity {
 
+    private String name;
+
+    private String summary;
+
     @ManyToOne
     @JoinColumn(name = "site_id")
     private SiteEntity site;
@@ -39,6 +43,9 @@ public class EventEntity extends BaseDomainEntity {
     private String description;
 
     private String kassir;
+
+    @JoinColumn(name = "view_count")
+    private Long viewCount;
 
     private Boolean completed;
 

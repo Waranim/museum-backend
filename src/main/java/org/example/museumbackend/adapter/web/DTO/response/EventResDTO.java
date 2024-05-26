@@ -5,6 +5,8 @@ import java.util.List;
 
 public record EventResDTO(
         Long id,
+        String name,
+        String summary,
         Long siteId,
         Long typeOfEventId,
         Timestamp date,
@@ -15,6 +17,7 @@ public record EventResDTO(
         Boolean hia,
         String description,
         String kassir,
+        Long viewCount,
         Boolean completed,
         List<PriceResDTO> prices,
         List<ImageLinkDTO> images
