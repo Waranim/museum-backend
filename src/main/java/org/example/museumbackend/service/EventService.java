@@ -154,7 +154,7 @@ public class EventService {
     }
 
     public List<EventLogoResDTO> getAllEventsLogo() {
-        var result = eventRepository
+        return eventRepository
                 .findAll()
                 .stream()
                 .filter(event -> !event.getCompleted())
@@ -166,8 +166,6 @@ public class EventService {
                         event.getSite().getAddress(),
                         event.getImages().isEmpty() ? null : new ImageLinkDTO(IMAGE_PATH + event.getImages().getFirst().getId())))
                 .toList();
-
-        return result;
     }
 
     public void updateEvent(Long id, EventReqDTO eventDTO) {
