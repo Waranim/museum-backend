@@ -36,4 +36,7 @@ public class UserEntity extends BaseDomainEntity {
             inverseJoinColumns = { @JoinColumn(name = "event_id") }
     )
     private List<EventEntity> events;
+
+    @OneToMany(mappedBy = "user")
+    private List<TicketEntity> tickets;
 }

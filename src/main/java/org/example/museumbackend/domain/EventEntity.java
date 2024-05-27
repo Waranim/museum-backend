@@ -55,6 +55,9 @@ public class EventEntity extends BaseDomainEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<PriceEntity> prices;
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<TicketEntity> tickets;
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST)
     private List<ImageEntity> images;
 }

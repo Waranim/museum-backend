@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-05-27-17-23
+      author: SterkhovKI
+      comment: Creating ticket and news tables
+      changes:
+        - createTable:
+            tableName: news
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: title
+                  type: varchar(255)
+              - column:
+                  name: summary
+                  type: varchar(255)
+              - column:
+                  name: content
+                  type: varchar(255)
+              - column:
+                  name: publish_date
+                  type: timestamp
+        - createTable:
+            tableName: ticket
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ticket_user
+                    referencedTableName: user
+                    referencedColumnNames: id
+              - column:
+                  name: event_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ticket_event
+                    referencedTableName: event
+                    referencedColumnNames: id
+              - column:
+                  name: price
+                  type: int
+              - column:
+                  name: booked
+                  type: boolean
+              - column:
+                  name: booking_time
+                  type: timestamp
+              - column:
+                  name: paid
+                  type: boolean
+              - column:
+                  name: payment_time
+                  type: timestamp
+        - addColumn:
+            tableName: image
+            columns:
+              - column:
+                  name: news_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_image_news
+                    referencedTableName: news
+                    referencedColumnNames: id
+        - dropNotNullConstraint:
+            tableName: image
+            columnName: event_id
+            columnDataType: bigint
