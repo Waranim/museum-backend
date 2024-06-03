@@ -6,6 +6,12 @@ app:
     client-id: museum-backend
     client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw
 
+springdoc:
+  swagger-ui:
+    path: /public/swagger-ui/index.html
+  api-docs:
+    path: /public/api-docs
+
 #logging:
 #  level:
 #    org.springframework.security: trace

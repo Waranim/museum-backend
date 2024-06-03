@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,7 @@ public class EventService {
     private static final String TYPE_OF_EVENT = "type of event";
     private static final String SITE = "site";
     private static final String EVENT = "event";
-    public static final String IMAGE_PATH = "/api/images/";
+    private static final String IMAGE_PATH = "/api/images/";
 
     EventRepository eventRepository;
     SiteRepository siteRepository;
@@ -58,6 +59,7 @@ public class EventService {
 
         var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         var date = new Timestamp(dateFormat.parse(eventDTO.date()).getTime());
+        var duration = Duration.ofDays(eventDTO.bookingTime().days()).plusHours(eventDTO.bookingTime().hours()).plusMinutes(eventDTO.bookingTime().minutes());
         var imageList = new ArrayList<ImageEntity>();
         for (MultipartFile image : images) {
             Path path = Paths.get("images/" + image.getOriginalFilename());
@@ -97,6 +99,9 @@ public class EventService {
         event.setKids(eventDTO.kids());
         event.setHia(eventDTO.hia());
         event.setDescription(eventDTO.description());
+        event.setBookingAllowed(eventDTO.bookingAllowed() != null ? eventDTO.bookingAllowed() : false);
+        event.setBookingTime(duration.toString());
+        event.setDuration(eventDTO.duration());
         event.setKassir(eventDTO.kassir());
         event.setPrices(prices);
         event.setImages(imageList);

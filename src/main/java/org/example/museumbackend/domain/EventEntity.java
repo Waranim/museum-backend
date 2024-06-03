@@ -42,6 +42,14 @@ public class EventEntity extends BaseDomainEntity {
 
     private String description;
 
+    @Column(name = "booking_allowed")
+    private Boolean bookingAllowed;
+
+    @Column(name = "booking_time")
+    private String bookingTime;
+
+    private Integer duration;
+
     private String kassir;
 
     @JoinColumn(name = "view_count")

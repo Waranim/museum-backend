@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-06-02-21-43
+      author: SterkhovKI
+      comment: Add new columns in event table
+      changes:
+        - addColumn:
+            tableName: event
+            columns:
+              - column:
+                  name: booking_allowed
+                  type: boolean
+              - column:
+                  name: booking_time
+                  type: varchar(255)
+              - column:
+                  name: duration
+                  type: int

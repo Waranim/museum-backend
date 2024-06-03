@@ -26,6 +26,9 @@ public record EventCreateDTO(
         @NotNull
         @NotEmpty
         String description,
+        Boolean bookingAllowed,
+        BookingTimeDTO bookingTime,
+        Integer duration,
         String kassir,
         @NotNull
         @NotEmpty

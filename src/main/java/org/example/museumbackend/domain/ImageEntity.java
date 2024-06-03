@@ -30,4 +30,9 @@ public class ImageEntity extends BaseDomainEntity {
         this.path = path;
         this.event = event;
     }
+
+    public ImageEntity(String path, NewsEntity news) {
+        this.path = path;
+        this.news = news;
+    }
 }

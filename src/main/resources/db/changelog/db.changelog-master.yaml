@@ -11,3 +11,6 @@ databaseChangeLog:
   - include:
       file: 2024/05/2024-05-27-17-23.yaml
       relativeToChangelogFile: true
+  - include:
+      file: 2024/06/2024-06-02-21-43.yaml
+      relativeToChangelogFile: true
