@@ -7,6 +7,8 @@ services:
     environment:
       POSTGRES_HOST: "museum.postgres"
       POSTGRES_USERNAME: "postgres"
+      KEYCLOAK_HOST: "museum.keycloak"
+      TZ: "Asia/Yekaterinburg"
     secrets:
       - pg_password
     ports:
@@ -26,6 +28,7 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
       PGDATA: "/var/lib/postgresql/data/pgdata"
+      TZ: "Asia/Yekaterinburg"
     volumes:
       - ./db/init-scripts:/docker-entrypoint-initdb.d
       - ./db/data:/var/lib/postgresql/data
@@ -61,6 +64,7 @@ services:
       KEYCLOAK_DATABASE_USER: "postgres"
       KEYCLOAK_DATABASE_NAME: "keycloak"
       KEYCLOAK_DATABASE_PASSWORD: "museum1"
+      TZ: "Asia/Yekaterinburg"
     ports:
       - "8081:8081"
     deploy:

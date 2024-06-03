@@ -20,16 +20,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/museum
+          issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/realms/${KEYCLOAK_REALM:museum}
       client:
         provider:
           keycloak:
-            issuer-uri: http://localhost:8081/realms/museum
+            issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/realms/${KEYCLOAK_REALM:museum}
             user-name-attribute: preferred_username
         registration:
           keycloak:
             client-id: museum-backend
-            client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw
+            client-secret: ${KEYCLOAK_CLIENT_SECRET:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}
             scope: openid
 
   datasource:
