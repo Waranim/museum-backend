@@ -103,6 +103,7 @@ public class EventService {
         event.setBookingTime(duration.toString());
         event.setDuration(eventDTO.duration());
         event.setKassir(eventDTO.kassir());
+        event.setViewCount(0L);
         event.setPrices(prices);
         event.setImages(imageList);
         event.setCompleted(false);

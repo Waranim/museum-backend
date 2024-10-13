@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-06-15-16-07
+      author: SterkhovKI
+      changes:
+        - modifyDataType:
+            tableName: event
+            columnName: description
+            newDataType: text
