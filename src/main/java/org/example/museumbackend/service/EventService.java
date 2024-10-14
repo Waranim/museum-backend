@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.repository.*;
+import org.example.museumbackend.adapter.specification.EventSpecifications;
 import org.example.museumbackend.adapter.web.DTO.request.EventCreateDTO;
 import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
@@ -12,6 +13,7 @@ import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.ImageLinkDTO;
 import org.example.museumbackend.adapter.web.DTO.response.PriceResDTO;
 import org.example.museumbackend.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -238,5 +240,46 @@ public class EventService {
         event.getImages().forEach(imageEntity -> imageService.deleteImage(imageEntity.getId()));
 
         eventRepository.deleteById(id);
+    }
+
+    @SneakyThrows
+    public List<EventResDTO> filterEvents(Long siteId, Long typeId, String date, Boolean adult, Boolean teenagers, Boolean kids, Boolean hia, Boolean bookingAllowed, Integer minPrice, Integer maxPrice) {
+        Specification<EventEntity> spec = Specification.where(null);
+
+        if (siteId != null) {
+            spec = spec.and(EventSpecifications.hasSite(siteId));
+        }
+        if (typeId != null) {
+            spec = spec.and(EventSpecifications.hasType(typeId));
+        }
+        if (date != null) {
+            var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            var dateTimestamp = new Timestamp(dateFormat.parse(date).getTime());
+
+            spec = spec.and(EventSpecifications.hasDate(dateTimestamp));
+        }
+        if (adult != null && adult) {
+            spec = spec.and(EventSpecifications.isForAdults());
+        }
+        if (teenagers != null && teenagers) {
+            spec = spec.and(EventSpecifications.isForTeenagers());
+        }
+        if (kids != null && kids) {
+            spec = spec.and(EventSpecifications.isForKids());
+        }
+        if (hia != null && hia) {
+            spec = spec.and(EventSpecifications.isHIA());
+        }
+        if (bookingAllowed != null && bookingAllowed) {
+            spec = spec.and(EventSpecifications.hasBookingAllowed());
+        }
+        if (minPrice != null && maxPrice != null) {
+            spec = spec.and(EventSpecifications.hasPriceRange(minPrice, maxPrice));
+        }
+
+        return eventRepository.findAll(spec)
+                .stream()
+                .map(eventEntity -> getEvent(eventEntity.getId()))
+                .toList();
     }
 }

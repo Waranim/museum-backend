@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.web.DTO.request.EventCreateDTO;
+import org.example.museumbackend.adapter.web.DTO.request.EventFilterDTO;
 import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
@@ -86,5 +87,25 @@ public class EventController {
     @ResponseStatus(NO_CONTENT)
     public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
+    }
+
+    @Operation(
+            summary = "Получение мероприятий с учётом фильтров",
+            description = "Фильтровать можно используя все передающиеся параметры одновременно"
+    )
+    @PostMapping("/api/event/filter")
+    public List<EventResDTO> getFilteredEvents(EventFilterDTO eventReqDTO) {
+        return eventService.filterEvents(
+                eventReqDTO.siteId(),
+                eventReqDTO.typeOfEventId(),
+                eventReqDTO.date(),
+                eventReqDTO.adult(),
+                eventReqDTO.teenagers(),
+                eventReqDTO.kids(),
+                eventReqDTO.hia(),
+                eventReqDTO.bookingAllowed(),
+                eventReqDTO.minPrice(),
+                eventReqDTO.maxPrice()
+        );
     }
 }
