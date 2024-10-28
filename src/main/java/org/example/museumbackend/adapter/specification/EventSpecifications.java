@@ -20,6 +20,10 @@ public class EventSpecifications {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 
+    public static Specification<EventEntity> hasDateBetween(Timestamp startDate, Timestamp endDate) {
+        return (root, query, cb) -> cb.between(root.get("date"), startDate, endDate);
+    }
+
     public static Specification<EventEntity> isForAdults() {
         return (root, query, cb) -> cb.isTrue(root.get("adult"));
     }
@@ -38,6 +42,11 @@ public class EventSpecifications {
 
     public static Specification<EventEntity> hasBookingAllowed() {
         return (root, query, cb) -> cb.isTrue(root.get("bookingAllowed"));
+    }
+
+    public static Specification<EventEntity> isCompleted(Boolean completed) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("completed"), completed);
     }
 
     public static Specification<EventEntity> hasPriceRange(Integer minPrice, Integer maxPrice) {

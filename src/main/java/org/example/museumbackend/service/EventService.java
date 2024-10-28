@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.example.museumbackend.adapter.repository.*;
 import org.example.museumbackend.adapter.specification.EventSpecifications;
 import org.example.museumbackend.adapter.web.DTO.request.EventCreateDTO;
+import org.example.museumbackend.adapter.web.DTO.request.EventFilterDTO;
 import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
@@ -240,6 +241,21 @@ public class EventService {
         event.getImages().forEach(imageEntity -> imageService.deleteImage(imageEntity.getId()));
 
         eventRepository.deleteById(id);
+    }
+
+    public List<EventResDTO> filterEvents(EventFilterDTO eventFilterDTO) {
+        return filterEvents(
+                eventFilterDTO.siteId(),
+                eventFilterDTO.typeOfEventId(),
+                eventFilterDTO.date(),
+                eventFilterDTO.adult(),
+                eventFilterDTO.teenagers(),
+                eventFilterDTO.kids(),
+                eventFilterDTO.hia(),
+                eventFilterDTO.bookingAllowed(),
+                eventFilterDTO.minPrice(),
+                eventFilterDTO.maxPrice()
+        );
     }
 
     @SneakyThrows

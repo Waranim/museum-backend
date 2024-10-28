@@ -94,18 +94,7 @@ public class EventController {
             description = "Фильтровать можно используя все передающиеся параметры одновременно"
     )
     @PostMapping("/api/event/filter")
-    public List<EventResDTO> getFilteredEvents(EventFilterDTO eventReqDTO) {
-        return eventService.filterEvents(
-                eventReqDTO.siteId(),
-                eventReqDTO.typeOfEventId(),
-                eventReqDTO.date(),
-                eventReqDTO.adult(),
-                eventReqDTO.teenagers(),
-                eventReqDTO.kids(),
-                eventReqDTO.hia(),
-                eventReqDTO.bookingAllowed(),
-                eventReqDTO.minPrice(),
-                eventReqDTO.maxPrice()
-        );
+    public List<EventResDTO> getFilteredEvents(EventFilterDTO eventFilterDTODTO) {
+        return eventService.filterEvents(eventFilterDTODTO);
     }
 }
