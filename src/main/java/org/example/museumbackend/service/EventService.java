@@ -27,10 +27,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -61,6 +58,7 @@ public class EventService {
                 .toList();
 
         var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Yekaterinburg"));
         var date = new Timestamp(dateFormat.parse(eventDTO.date()).getTime());
         var duration = Duration.ofDays(eventDTO.bookingTime().days()).plusHours(eventDTO.bookingTime().hours()).plusMinutes(eventDTO.bookingTime().minutes());
         var imageList = new ArrayList<ImageEntity>();
@@ -114,18 +112,24 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public EventResDTO getEvent(Long id) {
+    public EventResDTO getEvent(Long id, boolean isSkipStat) {
         EventEntity event;
         var eventEntity = eventRepository.findById(id);
         if (eventEntity.isPresent()) {
             event = eventEntity.get();
             var viewCount = event.getViewCount();
-            viewCount++;
-            event.setViewCount(viewCount);
-            eventRepository.save(event);
+            if (!isSkipStat) {
+                viewCount++;
+                event.setViewCount(viewCount);
+                eventRepository.save(event);
+            }
         } else {
             return null;
         }
+
+        var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Yekaterinburg"));
+        var date = dateFormat.format(event.getDate());
 
         var pricesDTO = event.getPrices()
                 .stream()
@@ -143,7 +147,7 @@ public class EventService {
                 event.getSummary(),
                 event.getSite().getId(),
                 event.getTypeOfEvent().getId(),
-                event.getDate(),
+                date,
                 event.getAge(),
                 event.getAdult(),
                 event.getTeenagers(),
@@ -159,7 +163,7 @@ public class EventService {
     }
 
     public List<EventResDTO> getAllEvents() {
-        return eventRepository.findAll().stream().map(event -> getEvent(event.getId())).toList();
+        return eventRepository.findAll().stream().map(event -> getEvent(event.getId(), true)).toList();
     }
 
     public List<EventLogoResDTO> getAllEventsLogo() {
@@ -192,10 +196,11 @@ public class EventService {
 
     @SneakyThrows
     private void replaceDataEvent(EventReqDTO eventDTO, EventEntity event) {
-        if (eventDTO.date() != null) {
-            var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-            event.setDate(new Timestamp(dateFormat.parse(eventDTO.date()).getTime()));
-        }
+        var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Yekaterinburg"));
+        event.setDate(eventDTO.date() != null ?
+                new Timestamp(dateFormat.parse(eventDTO.date()).getTime()) :
+                null);
 
         if (eventDTO.siteId() != null) {
             var siteOptional = siteRepository.findById(eventDTO.siteId());
@@ -204,6 +209,8 @@ public class EventService {
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_ID_SPECIFIED_MESSAGE + SITE);
             }
+        } else {
+            event.setSite(null);
         }
 
         if (eventDTO.typeOfEventId() != null) {
@@ -213,21 +220,62 @@ public class EventService {
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_ID_SPECIFIED_MESSAGE + TYPE_OF_EVENT);
             }
+        } else {
+            event.setTypeOfEvent(null);
         }
 
-        Optional.ofNullable(eventDTO.name()).ifPresent(event::setName);
-        Optional.ofNullable(eventDTO.summary()).ifPresent(event::setSummary);
-        Optional.ofNullable(eventDTO.age()).ifPresent(event::setAge);
-        Optional.ofNullable(eventDTO.adult()).ifPresent(event::setAdult);
-        Optional.ofNullable(eventDTO.teenagers()).ifPresent(event::setTeenagers);
-        Optional.ofNullable(eventDTO.kids()).ifPresent(event::setKids);
-        Optional.ofNullable(eventDTO.hia()).ifPresent(event::setHia);
-        Optional.ofNullable(eventDTO.description()).ifPresent(event::setDescription);
-        Optional.ofNullable(eventDTO.kassir()).ifPresent(event::setKassir);
-        Optional.ofNullable(eventDTO.completed()).ifPresent(event::setCompleted);
+        event.setName(eventDTO.name());
+        event.setSummary(eventDTO.summary());
+        event.setAge(eventDTO.age());
+        event.setAdult(eventDTO.adult());
+        event.setTeenagers(eventDTO.teenagers());
+        event.setKids(eventDTO.kids());
+        event.setHia(eventDTO.hia());
+        event.setDescription(eventDTO.description());
+        event.setKassir(eventDTO.kassir());
+        event.setCompleted(eventDTO.completed());
 
         eventRepository.save(event);
     }
+
+//    @SneakyThrows
+//    private void replaceDataEvent(EventReqDTO eventDTO, EventEntity event) {
+//        if (eventDTO.date() != null) {
+//            var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+//            event.setDate(new Timestamp(dateFormat.parse(eventDTO.date()).getTime()));
+//        }
+//
+//        if (eventDTO.siteId() != null) {
+//            var siteOptional = siteRepository.findById(eventDTO.siteId());
+//            if (siteOptional.isPresent()) {
+//                event.setSite(siteOptional.get());
+//            } else {
+//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_ID_SPECIFIED_MESSAGE + SITE);
+//            }
+//        }
+//
+//        if (eventDTO.typeOfEventId() != null) {
+//            var typeOfEventOptional = typeOfEventRepository.findById(eventDTO.typeOfEventId());
+//            if (typeOfEventOptional.isPresent()) {
+//                event.setTypeOfEvent(typeOfEventOptional.get());
+//            } else {
+//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_ID_SPECIFIED_MESSAGE + TYPE_OF_EVENT);
+//            }
+//        }
+//
+//        Optional.ofNullable(eventDTO.name()).ifPresent(event::setName);
+//        Optional.ofNullable(eventDTO.summary()).ifPresent(event::setSummary);
+//        Optional.ofNullable(eventDTO.age()).ifPresent(event::setAge);
+//        Optional.ofNullable(eventDTO.adult()).ifPresent(event::setAdult);
+//        Optional.ofNullable(eventDTO.teenagers()).ifPresent(event::setTeenagers);
+//        Optional.ofNullable(eventDTO.kids()).ifPresent(event::setKids);
+//        Optional.ofNullable(eventDTO.hia()).ifPresent(event::setHia);
+//        Optional.ofNullable(eventDTO.description()).ifPresent(event::setDescription);
+//        Optional.ofNullable(eventDTO.kassir()).ifPresent(event::setKassir);
+//        Optional.ofNullable(eventDTO.completed()).ifPresent(event::setCompleted);
+//
+//        eventRepository.save(event);
+//    }
 
     public void deleteEvent(Long id) {
         EventEntity event;
@@ -270,6 +318,7 @@ public class EventService {
         }
         if (date != null) {
             var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Yekaterinburg"));
             var dateTimestamp = new Timestamp(dateFormat.parse(date).getTime());
 
             spec = spec.and(EventSpecifications.hasDate(dateTimestamp));
@@ -295,7 +344,7 @@ public class EventService {
 
         return eventRepository.findAll(spec)
                 .stream()
-                .map(eventEntity -> getEvent(eventEntity.getId()))
+                .map(eventEntity -> getEvent(eventEntity.getId(), true))
                 .toList();
     }
 }

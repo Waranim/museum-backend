@@ -1,6 +1,5 @@
 package org.example.museumbackend.adapter.web.DTO.response;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public record EventResDTO(
@@ -9,7 +8,7 @@ public record EventResDTO(
         String summary,
         Long siteId,
         Long typeOfEventId,
-        Timestamp date,
+        String date,
         Integer age,
         Boolean adult,
         Boolean teenagers,

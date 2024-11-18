@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class EventStatisticsService {
     @SneakyThrows
     public List<EventStatisticsDTO> getEventStatistics(EventStatisticsReqDTO reqDTO) {
         var dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Yekaterinburg"));
         var startDate = new Timestamp(dateFormat.parse(reqDTO.startDate()).getTime());
         var endDate = new Timestamp(dateFormat.parse(reqDTO.endDate()).getTime());
 

@@ -34,7 +34,7 @@ public class EventController {
     )
     @GetMapping("/api/event/{id}")
     public EventResDTO getEvent(@PathVariable Long id) {
-        return eventService.getEvent(id);
+        return eventService.getEvent(id, false);
     }
 
     @Operation(
@@ -70,10 +70,8 @@ public class EventController {
     }
 
     @Operation(
-            summary = "Редактирование информации о мероприятии, доступно только маркетологу и администратору(Возможны существенные изменения см. описание)",
-            description = "Для редактирования необходимо отправить идентификатор и параметр, который надо обновить." +
-                    " В будущем возможно надо будет отправлять полностью всю информацию по мероприятию, которая должна быть " +
-                    "в отредактированном мероприятии"
+            summary = "Редактирование информации о мероприятии, доступно только маркетологу и администратору",
+            description = "Для редактирования необходимо указывать всю информацию о мероприятии с учётом данных, которые следует обновить"
     )
     @PutMapping("/marketer/api/event/{id}")
     public void updateEvent(@PathVariable Long id, @RequestBody EventReqDTO eventReqDTO) {
