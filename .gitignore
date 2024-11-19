@@ -39,3 +39,6 @@ out/
 ### PostgreSQL ###
 db/secrets/*
 db/data/*
+
+
+images/
