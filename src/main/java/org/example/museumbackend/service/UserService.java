@@ -37,4 +37,8 @@ public class UserService {
 
         throw new ResponseStatusException(UNAUTHORIZED);
     }
+
+    public UserEntity getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

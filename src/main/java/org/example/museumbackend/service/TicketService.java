@@ -8,6 +8,7 @@ import org.example.museumbackend.adapter.repository.TicketRepository;
 import org.example.museumbackend.adapter.web.DTO.request.TicketReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.TicketResDTO;
 import org.example.museumbackend.domain.TicketEntity;
+import org.example.museumbackend.domain.UserEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -41,6 +44,7 @@ public class TicketService {
         var eventOptional = eventRepository.findById(ticketDTO.event_id());
         var priceOptional = priceRepository.findById(ticketDTO.price_id());
         var user = userService.getUser(SecurityContextHolder.getContext());
+        var zoneId = ZoneId.of("Asia/Yekaterinburg");
 
         if (eventOptional.isPresent() && priceOptional.isPresent()) {
             var event = eventOptional.get();
@@ -56,7 +60,8 @@ public class TicketService {
                 ticketEntity.setPrice(price.getPrice());
                 ticketEntity.setEvent(event);
                 ticketEntity.setUser(user);
-                ticketEntity.setPaymentTime(new Timestamp(System.currentTimeMillis()));
+                var paymentTime = ZonedDateTime.now(zoneId);
+                ticketEntity.setPaymentTime(Timestamp.valueOf(paymentTime.toLocalDateTime()));
 
                 ticketRepository.save(ticketEntity);
 
@@ -74,7 +79,8 @@ public class TicketService {
                 ticketEntity.setPrice(price.getPrice());
                 ticketEntity.setEvent(event);
                 ticketEntity.setUser(user);
-                ticketEntity.setBookingTime(Timestamp.valueOf(Timestamp.from(java.time.Instant.now()).toLocalDateTime().plus(Duration.parse(event.getBookingTime()))));
+                var bookingTime = ZonedDateTime.now(zoneId).plus(Duration.parse(event.getBookingTime()));
+                ticketEntity.setBookingTime(Timestamp.valueOf(bookingTime.toLocalDateTime()));
 
                 ticketRepository.save(ticketEntity);
 
@@ -115,10 +121,45 @@ public class TicketService {
         throw new ResponseStatusException(NOT_FOUND);
     }
 
+    private List<TicketResDTO> getAllTickets(UserEntity user) {
+
+        return user.getTickets()
+                .stream()
+                .map(ticketEntity -> new TicketResDTO(
+                        ticketEntity.getId(),
+                        ticketEntity.getEvent().getName(),
+                        ticketEntity.getPrice(),
+                        ticketEntity.getBooked(),
+                        ticketEntity.getBookingTime(),
+                        ticketEntity.getPaid(),
+                        ticketEntity.getPaymentTime()
+                )).toList();
+    }
+
     public List<TicketResDTO> getAllTickets() {
         var user = userService.getUser(SecurityContextHolder.getContext());
 
-        return user.getTickets()
+        return getAllTickets(user);
+    }
+
+    public List<TicketResDTO> getAllTickets(Long userId) {
+        var user = userService.getUser(userId);
+
+        if (user == null) {
+            throw new ResponseStatusException(NOT_FOUND);
+        }
+
+        return getAllTickets(user);
+    }
+
+    public List<TicketResDTO> getAllTicketsForEvent(Long eventId) {
+        var event = eventRepository.findById(eventId).orElse(null);
+
+        if (event == null) {
+            throw new ResponseStatusException(NOT_FOUND);
+        }
+
+        return event.getTickets()
                 .stream()
                 .map(ticketEntity -> new TicketResDTO(
                         ticketEntity.getId(),

@@ -47,4 +47,20 @@ public class TicketController {
     public List<TicketResDTO> getTickets() {
         return ticketService.getAllTickets();
     }
+
+    @Operation(
+            summary = "Получение всех билетов на мероприятие, доступно только гиду"
+    )
+    @GetMapping("/guide/api/ticket/{id}")
+    public List<TicketResDTO> getTicketsByEvent(@PathVariable Long id) {
+        return ticketService.getAllTicketsForEvent(id);
+    }
+
+    @Operation(
+            summary = "Получение всех билетов на мероприятие, доступно только администратору"
+    )
+    @GetMapping("/guide/api/ticket/{id}")
+    public List<TicketResDTO> getTicketsByUser(@PathVariable Long id) {
+        return ticketService.getAllTickets(id);
+    }
 }
