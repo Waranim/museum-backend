@@ -51,7 +51,7 @@ public class TicketController {
     @Operation(
             summary = "Получение всех билетов на мероприятие, доступно только гиду"
     )
-    @GetMapping("/guide/api/ticket/{id}")
+    @GetMapping("/guide/api/ticket/event/{id}")
     public List<TicketResDTO> getTicketsByEvent(@PathVariable Long id) {
         return ticketService.getAllTicketsForEvent(id);
     }
