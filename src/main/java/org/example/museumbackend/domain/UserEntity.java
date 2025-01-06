@@ -11,7 +11,7 @@ import org.example.museumbackend.domain.common.BaseDomainEntity;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Setter
 @Getter
 @NoArgsConstructor

@@ -11,6 +11,7 @@ import org.example.museumbackend.adapter.web.DTO.request.EventReqDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventLogoResDTO;
 import org.example.museumbackend.adapter.web.DTO.response.EventResDTO;
 import org.example.museumbackend.service.EventService;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,7 +63,7 @@ public class EventController {
                     "эндпоинте принимается multipart/from-data, где event является json, а images - файлы изображений"
     )
     @SneakyThrows
-    @PostMapping("/marketer/api/event")
+    @PostMapping(value = "/marketer/api/event", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(CREATED)
     public void createEvent(@Validated @RequestPart("event") EventCreateDTO eventCreateDTO,
                             @RequestPart("images") MultipartFile[] images) {

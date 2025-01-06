@@ -11,6 +11,8 @@ services:
       TZ: "Asia/Yekaterinburg"
     secrets:
       - pg_password
+    volumes:
+      - ./images:/app/images
     ports:
       - "8080:8080"
     networks:
