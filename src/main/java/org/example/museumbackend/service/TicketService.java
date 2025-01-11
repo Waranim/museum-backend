@@ -68,6 +68,7 @@ public class TicketService {
                 return new TicketResDTO(
                         ticketEntity.getId(),
                         event.getName(),
+                        event.getId(),
                         ticketEntity.getPrice(),
                         ticketEntity.getBooked(),
                         ticketEntity.getBookingTime(),
@@ -87,6 +88,7 @@ public class TicketService {
                 return new TicketResDTO(
                         ticketEntity.getId(),
                         event.getName(),
+                        event.getId(),
                         ticketEntity.getPrice(),
                         ticketEntity.getBooked(),
                         ticketEntity.getBookingTime(),
@@ -110,6 +112,7 @@ public class TicketService {
             return new TicketResDTO(
                     ticketEntity.getId(),
                     ticketEntity.getEvent().getName(),
+                    ticketEntity.getEvent().getId(),
                     ticketEntity.getPrice(),
                     ticketEntity.getBooked(),
                     ticketEntity.getBookingTime(),
@@ -128,6 +131,7 @@ public class TicketService {
                 .map(ticketEntity -> new TicketResDTO(
                         ticketEntity.getId(),
                         ticketEntity.getEvent().getName(),
+                        ticketEntity.getEvent().getId(),
                         ticketEntity.getPrice(),
                         ticketEntity.getBooked(),
                         ticketEntity.getBookingTime(),
@@ -164,6 +168,7 @@ public class TicketService {
                 .map(ticketEntity -> new TicketResDTO(
                         ticketEntity.getId(),
                         ticketEntity.getEvent().getName(),
+                        ticketEntity.getEvent().getId(),
                         ticketEntity.getPrice(),
                         ticketEntity.getBooked(),
                         ticketEntity.getBookingTime(),

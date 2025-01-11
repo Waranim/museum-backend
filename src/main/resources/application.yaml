@@ -26,11 +26,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/realms/${KEYCLOAK_REALM:museum}
+          issuer-uri: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM:museum}
       client:
         provider:
           keycloak:
-            issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/realms/${KEYCLOAK_REALM:museum}
+            issuer-uri: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM:museum}
             user-name-attribute: preferred_username
         registration:
           keycloak:

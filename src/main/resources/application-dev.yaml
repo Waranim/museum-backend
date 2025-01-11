@@ -1,7 +1,7 @@
 app:
   keycloak:
-    auth-url: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/realms/${KEYCLOAK_REALM:museum}/protocol/openid-connect
-    admin-url: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:8081}/admin/realms/${KEYCLOAK_REALM:museum}
+    auth-url: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM:museum}/protocol/openid-connect
+    admin-url: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM:museum}
     realm: ${KEYCLOAK_REALM:museum}
     client-id: museum-backend
     client-secret: ${KEYCLOAK_CLIENT_SECRET:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}
