@@ -1,10 +1,16 @@
 app:
   keycloak:
-    auth-url: http://localhost:8081/realms/museum/protocol/openid-connect
-    admin-url: http://localhost:8081/admin/realms/museum
-    realm: museum
+    auth-url: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM:museum}/protocol/openid-connect
+    admin-url: ${KEYCLOAK_PROTOCOL:http}://${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM:museum}
+    realm: ${KEYCLOAK_REALM:museum}
     client-id: museum-backend
-    client-secret: vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw
+    client-secret: ${KEYCLOAK_CLIENT_SECRET:vBFffuhSkZkREDDPcgKQ86KjMqSsuJkw}
+
+springdoc:
+  swagger-ui:
+    path: /public/swagger-ui/index.html
+  api-docs:
+    path: /public/api-docs
 
 #logging:
 #  level:

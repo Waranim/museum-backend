@@ -25,6 +25,7 @@ public class RegisterService {
 
     private static final String BEARER = "Bearer ";
     private static final String USERS_PATH = "/users";
+    private static final String VERIFY_EMAIL_PATH = "/send-verify-email";
     private static final String AUTHORIZATION = "Authorization";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
@@ -48,16 +49,39 @@ public class RegisterService {
 
         var authToken = BEARER + accessTokenClient.getAccessToken();
 
-        webClient
+        var registerResponse = webClient
                 .post()
                 .uri(URI.create(PATH))
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, authToken)
                 .bodyValue(body)
                 .retrieve()
-                .bodyToMono(String.class)
+                .toBodilessEntity()
                 .block();
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        if (registerResponse != null && registerResponse.getStatusCode() == HttpStatus.CREATED) {
+            var location = registerResponse.getHeaders().getLocation();
+
+            if (location != null) {
+                var locationPath = location.getPath();
+//                var userId = locationPath.split("/")[locationPath.split("/").length - 1];
+                var userId = locationPath.substring(locationPath.lastIndexOf('/') + 1);
+                var verifyEmailPath = PATH + "/" + userId + VERIFY_EMAIL_PATH;
+                var verifyEmailResponse = webClient
+                        .put()
+                        .uri(URI.create(verifyEmailPath))
+                        .header(AUTHORIZATION, authToken)
+                        .retrieve()
+                        .toBodilessEntity()
+                        .block();
+
+                if (verifyEmailResponse != null && verifyEmailResponse.getStatusCode().is2xxSuccessful()) {
+                    return ResponseEntity.status(HttpStatus.CREATED).build();
+                }
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Что-то пошло не так при регистрации пользователя");
     }
 }

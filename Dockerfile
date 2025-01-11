@@ -4,6 +4,8 @@ COPY . .
 RUN gradle assemble
 
 FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
 COPY --from=BUILD /app/build/libs/*.jar app.jar
+COPY src/main/resources/db/changelog /app/db/changelog
 EXPOSE 8080
 CMD ["java","-jar","/app.jar"]

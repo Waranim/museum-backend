@@ -1,8 +1,6 @@
 package org.example.museumbackend.adapter.web.DTO.request;
 
-public record EventReqDTO(
-        String name,
-        String summary,
+public record EventFilterDTO(
         Long siteId,
         Long typeOfEventId,
         String date,
@@ -11,8 +9,8 @@ public record EventReqDTO(
         Boolean teenagers,
         Boolean kids,
         Boolean hia,
-        String description,
-        String kassir,
-        Boolean completed
+        Boolean bookingAllowed,
+        Integer minPrice,
+        Integer maxPrice
 ) {
 }

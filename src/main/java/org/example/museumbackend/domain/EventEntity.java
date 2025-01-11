@@ -16,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 public class EventEntity extends BaseDomainEntity {
 
+    private String name;
+
+    private String summary;
+
     @ManyToOne
     @JoinColumn(name = "site_id")
     private SiteEntity site;
@@ -38,7 +42,18 @@ public class EventEntity extends BaseDomainEntity {
 
     private String description;
 
+    @Column(name = "booking_allowed")
+    private Boolean bookingAllowed;
+
+    @Column(name = "booking_time")
+    private String bookingTime;
+
+    private Integer duration;
+
     private String kassir;
+
+    @JoinColumn(name = "view_count")
+    private Long viewCount;
 
     private Boolean completed;
 
@@ -47,6 +62,9 @@ public class EventEntity extends BaseDomainEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<PriceEntity> prices;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<TicketEntity> tickets;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST)
     private List<ImageEntity> images;

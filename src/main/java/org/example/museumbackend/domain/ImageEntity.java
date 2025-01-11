@@ -19,6 +19,20 @@ public class ImageEntity extends BaseDomainEntity {
     private String path;
 
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
+    @JoinColumn(name = "event_id")
     private EventEntity event;
+
+    @ManyToOne
+    @JoinColumn(name = "news_id")
+    private NewsEntity news;
+
+    public ImageEntity(String path, EventEntity event) {
+        this.path = path;
+        this.event = event;
+    }
+
+    public ImageEntity(String path, NewsEntity news) {
+        this.path = path;
+        this.news = news;
+    }
 }
